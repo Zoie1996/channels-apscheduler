@@ -1,0 +1,92 @@
+<!-- chat/templates/chat/room.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Room</title>
+</head>
+<body>
+
+<div style="width: 700px;height:400px;margin: 100px">
+    <div id="main_day" style="width: 300px;height:300px;float:left;"></div>
+    <div id="main_nonth" style="width: 300px;height:300px;float: left;"></div>
+
+</div>
+
+
+</body>
+<script src="https://cdn.bootcss.com/echarts/4.2.0-rc.1/echarts.min.js"></script>
+
+<script>
+
+    var chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/data/');
+
+    var sendData = {};
+
+    chatSocket.onmessage = function (e) {
+        var data = JSON.parse(e.data);
+        sendData.month = data.month;// 基于准备好的dom，初始化echarts实例
+        sendData.day = data.day;// 基于准备好的dom，初始化echarts实例
+
+        var myChart_day = echarts.init(document.getElementById('main_day'));
+        var myChart_month = echarts.init(document.getElementById('main_nonth'));
+
+        // 指定图表的配置项和数据
+        var option_day = {
+            title: {
+                x: 'center',
+                text: '全校教师本周考勤'
+            },
+            tooltip: {},
+            legend: {
+                data: ['人次']
+            },
+            xAxis: {
+                data: ["矿工(课)", "请假", "迟到"]
+            },
+            yAxis: {},
+            series: [{
+                type: 'bar',
+                barCateGoryGap: 10,
+                color: ['#75da56'],
+                data: data.day
+            }]
+        };
+        var option_month = {
+            title: {
+                x: 'center',
+                text: '全校教师本月考勤'
+            },
+            tooltip: {},
+            legend: {
+                data: ['人次']
+            },
+            xAxis: {
+                data: ["矿工(课)", "请假", "迟到"]
+            },
+            yAxis: {},
+            series: [{
+                type: 'bar',
+                color: ['#d8945a'],
+                data: data.month
+            }]
+        };
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart_day.setOption(option_day);
+        myChart_month.setOption(option_month);
+    };
+
+    {#setTimeout(function () {#}
+    {#    var message = {#}
+    {#        month: sendData.month,#}
+    {#        day: sendData.day,#}
+    {#    };#}
+    {#    chatSocket.send(JSON.stringify(message));}, 500);#}
+
+
+</script>
+</html>
+

@@ -1,0 +1,31 @@
+<!-- chat/templates/chat/room.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Room</title>
+</head>
+<body>
+{#<div id="count" style="width: 100px;height: 100px"></div>#}
+
+<div style="width: 700px;height:400px;margin: 100px">
+    <div id="userId" style="font-size: 50px"></div>
+</div>
+
+
+</body>
+
+<script>
+
+    var chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/data/');
+
+    chatSocket.onmessage = function (e) {
+        var data = JSON.parse(e.data);
+        var newdiv = document.getElementById("userId");
+        newdiv.innerHTML = '<div>' + '插入数据' + data.id + '</div>';
+    };
+
+</script>
+</html>
+

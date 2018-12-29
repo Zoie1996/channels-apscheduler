@@ -1,0 +1,3 @@
+import pymysql
+#把pymysql方式当成是mysqldb一样使用
+pymysql.install_as_MySQLdb()

@@ -1,0 +1,9 @@
+Django==2.0.2
+Channels==2.0.2
+django-celery==3.2.2
+channels-redis==2.3.1
+Daphne==2.0.4
+celery==3.1.26.post2
+asgi_redis==1.4.3
+asgiref==2.1.6
+pypi==2.1
